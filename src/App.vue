@@ -1,25 +1,30 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
+
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <img alt="Vue logo" class="logo" :src="logo" width="125" height="125" />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
+        <button class="index" @click="goPage('/')">index</button>
+        <button class="about" @click="goPage('/about')">about</button>
 
   <RouterView />
 </template>
+<script setup>
+import { ref } from 'vue';
+import { useRouter, RouterView } from 'vue-router'
+import utils from './utils/index'
 
+import logoPhoto from './assets/finally_busy.png'
+console.log('------', logoPhoto)
+
+const logo = ref(utils.getAssetsFile('finally_busy.png'))
+
+const router = useRouter()
+const goPage = url => {
+  router.push({ path: url })
+  logo.value = url === '/' ? utils.getAssetsFile('finally_busy.png'):utils.getAssetsFile('finally_waiting.png')
+}
+
+</script>
 <style scoped>
 header {
   line-height: 1.5;
